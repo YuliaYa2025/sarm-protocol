@@ -1,0 +1,19 @@
+[
+  {
+    "type": "function",
+    "name": "refreshRatingWithReport",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "name": "report",
+        "type": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  }
+]
+

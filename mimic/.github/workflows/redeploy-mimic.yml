@@ -1,0 +1,79 @@
+name: Daily Mimic Task Redeployment
+
+on:
+  schedule:
+    # Daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: sarm-protocol/mimic/package-lock.json
+      
+      - name: Install dependencies
+        run: |
+          cd sarm-protocol/mimic
+          npm ci
+      
+      - name: Redeploy Mimic task
+        run: |
+          cd sarm-protocol/mimic
+          npm run deploy
+        env:
+          # Authentication
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          # Or use API key instead:
+          # MIMIC_API_KEY: ${{ secrets.MIMIC_API_KEY }}
+          
+          # Network
+          CHAIN_ID: ${{ secrets.CHAIN_ID || '84532' }}
+          
+          # Contract addresses
+          SSA_ORACLE_ADDRESS: ${{ secrets.SSA_ORACLE_ADDRESS }}
+          EURC_ADDRESS: ${{ secrets.EURC_ADDRESS }}
+          EURCV_ADDRESS: ${{ secrets.EURCV_ADDRESS }}
+          FDUSD_ADDRESS: ${{ secrets.FDUSD_ADDRESS }}
+          GUSD_ADDRESS: ${{ secrets.GUSD_ADDRESS }}
+          TUSD_ADDRESS: ${{ secrets.TUSD_ADDRESS }}
+          USDE_ADDRESS: ${{ secrets.USDE_ADDRESS }}
+          USDP_ADDRESS: ${{ secrets.USDP_ADDRESS }}
+          DAI_ADDRESS: ${{ secrets.DAI_ADDRESS }}
+          USDT_ADDRESS: ${{ secrets.USDT_ADDRESS }}
+          USDC_ADDRESS: ${{ secrets.USDC_ADDRESS }}
+          
+          # Feed IDs
+          FEED_ID_EURC: ${{ secrets.FEED_ID_EURC }}
+          FEED_ID_EURCV: ${{ secrets.FEED_ID_EURCV }}
+          FEED_ID_FDUSD: ${{ secrets.FEED_ID_FDUSD }}
+          FEED_ID_GUSD: ${{ secrets.FEED_ID_GUSD }}
+          FEED_ID_TUSD: ${{ secrets.FEED_ID_TUSD }}
+          FEED_ID_USDE: ${{ secrets.FEED_ID_USDE }}
+          FEED_ID_USDP: ${{ secrets.FEED_ID_USDP }}
+          FEED_ID_DAI: ${{ secrets.FEED_ID_DAI }}
+          FEED_ID_USDT: ${{ secrets.FEED_ID_USDT }}
+          FEED_ID_USDC: ${{ secrets.FEED_ID_USDC }}
+          
+          # DataLink credentials
+          DATALINK_API_URL: ${{ secrets.DATALINK_API_URL }}
+          DATALINK_USER: ${{ secrets.DATALINK_USER }}
+          DATALINK_API_SECRET: ${{ secrets.DATALINK_SECRET }}
+      
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: redeploy-logs
+          path: sarm-protocol/mimic/redeploy.log
+          if-no-files-found: ignore
+

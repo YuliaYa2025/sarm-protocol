@@ -1,0 +1,31 @@
+{
+  "name": "sarm-protocol",
+  "version": "1.0.0",
+  "description": "Stablecoin Automated Risk Management for Uniswap v4 - Dynamic fees and circuit breakers based on S&P Global SSA ratings",
+  "author": "SARM Protocol Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/sarm-protocol.git"
+  },
+  "keywords": [
+    "uniswap",
+    "v4",
+    "hook",
+    "stablecoin",
+    "ssa",
+    "chainlink",
+    "defi",
+    "risk-management"
+  ],
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "deploy": "forge script script/DeploySARM.s.sol --rpc-url $RPC_URL --broadcast",
+    "mimic:deploy": "cd mimic && npm run deploy",
+    "mimic:redeploy": "cd mimic && npm run redeploy"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

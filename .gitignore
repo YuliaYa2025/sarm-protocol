@@ -1,0 +1,33 @@
+# Foundry
+cache/
+out/
+lib/
+
+# Node
+node_modules/
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.log
+coverage/
+coverage.json
+gasreport.txt
+
+# Deployment artifacts (keep broadcasts for reference)
+# broadcast/
+
+# Mimic build
+mimic/dist/
+mimic/*.wasm

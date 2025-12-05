@@ -1,0 +1,21 @@
+#!/bin/bash
+# Helper script to guide finding Feed IDs
+
+echo "🔍 Finding DataLink Feed IDs for Stablecoin Stability Assessment"
+echo ""
+echo "Step 1: Visit https://data.chain.link/feeds?categories=Stablecoin%20Stability%20Assessment"
+echo ""
+echo "Step 2: Filter by network (Base Sepolia or Base Mainnet)"
+echo ""
+echo "Step 3: For each stablecoin (USDC, USDT, DAI):"
+echo "   - Click on the feed name"
+echo "   - Look for 'Feed ID' or 'Stream ID' on the detail page"
+echo "   - Copy the Feed ID (format: 0x... 64 hex characters)"
+echo ""
+echo "Step 4: Add to .env file:"
+echo "   FEED_ID_USDC=0x..."
+echo "   FEED_ID_USDT=0x..."
+echo "   FEED_ID_DAI=0x..."
+echo ""
+echo "📝 Note: Feed IDs are NOT visible in the main table."
+echo "   You must click on each feed to see its Feed ID."

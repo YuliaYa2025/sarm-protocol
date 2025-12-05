@@ -1,0 +1,134 @@
+version: 1.0.0
+name: SARM SSA Rating Refresh
+description: Automated task to update SSA ratings from Chainlink DataLink for SARM Protocol stablecoins
+trigger:
+  type: event
+  chainId: 84532  # Base Sepolia
+  contract: ""  # SARMHook address - set in deploy.ts from SARM_HOOK_ADDRESS env var
+  topics:
+    - ["0x988b2889"]  # RiskCheck(bytes32,uint8,uint8,uint8) event signature
+  delta: "1h"  # Execution window
+  endDate: 0  # No end date
+
+inputs:
+  # Chain configuration
+  - name: chainId
+    type: uint32
+    description: "Blockchain network ID (e.g., 84532 for Base Sepolia)"
+  
+  # Contract addresses
+  - name: ssaOracleAddress
+    type: address
+    description: "Address of the SSAOracleAdapter contract"
+  
+  - name: sarmHookAddress
+    type: address
+    description: "Address of the SARMHook contract (for event trigger)"
+  
+  # All 10 token addresses
+  - name: eurcAddress
+    type: address
+    description: "EURC token address on the target chain"
+  
+  - name: eurcvAddress
+    type: address
+    description: "EURCV token address on the target chain"
+  
+  - name: fdusdAddress
+    type: address
+    description: "FDUSD token address on the target chain"
+  
+  - name: gusdAddress
+    type: address
+    description: "GUSD token address on the target chain"
+  
+  - name: tusdAddress
+    type: address
+    description: "TUSD token address on the target chain"
+  
+  - name: usdeAddress
+    type: address
+    description: "USDe token address on the target chain"
+  
+  - name: usdpAddress
+    type: address
+    description: "USDP token address on the target chain"
+  
+  - name: daiAddress
+    type: address
+    description: "DAI token address on the target chain"
+  
+  - name: usdtAddress
+    type: address
+    description: "USDT token address on the target chain"
+  
+  - name: usdcAddress
+    type: address
+    description: "USDC token address on the target chain"
+  
+  # DataLink configuration
+  - name: datalinkApiUrl
+    type: string
+    description: "Chainlink DataLink API endpoint URL"
+    default: "https://api.datalink.chainlink.com/api/v1/reports/bulk"
+  
+  - name: datalinkUser
+    type: string
+    description: "DataLink API username (stored as secret)"
+    secret: true
+  
+  - name: datalinkSecret
+    type: string
+    description: "DataLink API password (stored as secret)"
+    secret: true
+  
+  # DataLink feed IDs (all 10 feeds)
+  - name: feedIdEurc
+    type: string
+    description: "DataLink feed ID for EURC SSA rating"
+  
+  - name: feedIdEurcv
+    type: string
+    description: "DataLink feed ID for EURCV SSA rating"
+  
+  - name: feedIdFdusd
+    type: string
+    description: "DataLink feed ID for FDUSD SSA rating"
+  
+  - name: feedIdGusd
+    type: string
+    description: "DataLink feed ID for GUSD SSA rating"
+  
+  - name: feedIdTusd
+    type: string
+    description: "DataLink feed ID for TUSD SSA rating"
+  
+  - name: feedIdUsde
+    type: string
+    description: "DataLink feed ID for USDe SSA rating"
+  
+  - name: feedIdUsdp
+    type: string
+    description: "DataLink feed ID for USDP SSA rating"
+  
+  - name: feedIdDai
+    type: string
+    description: "DataLink feed ID for DAI SSA rating"
+  
+  - name: feedIdUsdt
+    type: string
+    description: "DataLink feed ID for USDT SSA rating"
+  
+  - name: feedIdUsdc
+    type: string
+    description: "DataLink feed ID for USDC SSA rating"
+  
+  # Pre-fetched DataLink reports (fetched in deploy.ts and passed as inputs)
+  - name: reports
+    type: array
+    description: "Pre-fetched DataLink reports from deployment script"
+    # Structure: [{ feedId: string, validFromTimestamp: number, observationsTimestamp: number, fullReport: string }]
+
+abis:
+  - SSAOracleAdapter: ./abis/SSAOracleAdapter.json
+
