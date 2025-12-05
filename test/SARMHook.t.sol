@@ -12,6 +12,7 @@ import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/src/types/PoolId.sol";
 import {Currency, CurrencyLibrary} from "@uniswap/v4-core/src/types/Currency.sol";
 import {Hooks} from "@uniswap/v4-core/src/libraries/Hooks.sol";
 import {LPFeeLibrary} from "@uniswap/v4-core/src/libraries/LPFeeLibrary.sol";
+import {ModifyLiquidityParams, SwapParams} from "@uniswap/v4-core/src/types/PoolOperation.sol";
 
 import {SARMHook} from "../src/hooks/SARMHook.sol";
 import {SSAOracleAdapter} from "../src/oracles/SSAOracleAdapter.sol";
@@ -121,7 +122,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(ALICE);
         modifyLiquidityRouter.modifyLiquidity(
             poolKey,
-            IPoolManager.ModifyLiquidityParams({
+            ModifyLiquidityParams({
                 tickLower: -60,
                 tickUpper: 60,
                 liquidityDelta: 1000e6, // 1000 USDC worth of liquidity
@@ -205,7 +206,7 @@ contract SARMHookTest is Test, Deployers {
         
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: zeroForOne,
                 amountSpecified: -amountSpecified,
                 sqrtPriceLimitX96: zeroForOne ? MIN_PRICE_LIMIT : MAX_PRICE_LIMIT
@@ -227,7 +228,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -1000e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -253,7 +254,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -1000e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -275,7 +276,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -298,7 +299,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: false,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MAX_PRICE_LIMIT
@@ -319,7 +320,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -342,7 +343,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -362,7 +363,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -386,7 +387,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -409,7 +410,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -438,7 +439,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -1000e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -459,7 +460,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: false,
                 amountSpecified: -500e6,
                 sqrtPriceLimitX96: MAX_PRICE_LIMIT
@@ -482,7 +483,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -503,7 +504,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -200e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -534,7 +535,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -1000e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -561,7 +562,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -1000e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -590,7 +591,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -612,7 +613,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: false,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MAX_PRICE_LIMIT
@@ -634,7 +635,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -660,7 +661,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -679,7 +680,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: false,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MAX_PRICE_LIMIT
@@ -702,7 +703,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -879,7 +880,7 @@ contract SARMHookTest is Test, Deployers {
         vm.prank(BOB);
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT
@@ -917,7 +918,7 @@ contract SARMHookTest is Test, Deployers {
         vm.expectRevert(); // Hook error wrapped by Uniswap
         swapRouter.swap(
             poolKey,
-            IPoolManager.SwapParams({
+            SwapParams({
                 zeroForOne: true,
                 amountSpecified: -100e6,
                 sqrtPriceLimitX96: MIN_PRICE_LIMIT

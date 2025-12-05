@@ -9,6 +9,7 @@ import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/src/types/PoolId.sol";
 import {BeforeSwapDelta, BeforeSwapDeltaLibrary} from "@uniswap/v4-core/src/types/BeforeSwapDelta.sol";
 import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
 import {LPFeeLibrary} from "@uniswap/v4-core/src/libraries/LPFeeLibrary.sol";
+import {SwapParams} from "@uniswap/v4-core/src/types/PoolOperation.sol";
 
 import {SSAOracleAdapter} from "../oracles/SSAOracleAdapter.sol";
 
@@ -173,7 +174,7 @@ contract SARMHook is BaseHook {
     function _beforeSwap(
         address, /* sender */
         PoolKey calldata key,
-        IPoolManager.SwapParams calldata, /* params */
+        SwapParams calldata, /* params */
         bytes calldata /* hookData */
     ) internal override returns (bytes4, BeforeSwapDelta, uint24) {
         // Get token addresses from pool key
